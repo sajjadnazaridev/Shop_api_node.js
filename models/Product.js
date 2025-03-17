@@ -17,12 +17,12 @@ const productsSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
-        trim: true
+        min: [0, "Price must be at least 0"]
     },
     stock: {
         type: Number,
         required: true,
-        trim: true
+        min: [0, "Stock must be at least 0"]
     }
 });
 
