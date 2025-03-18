@@ -9,7 +9,7 @@ const JWT_SECRET = "secret";
 exports.registerUser = async (username, password, role = "customer") => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ id: uuidv4(), username, password: hashedPassword, role });
+        const newUser = new User({ _id: uuidv4(), username, password: hashedPassword, role });
 
         return await newUser.save();
     } catch (error) {

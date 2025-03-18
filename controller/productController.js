@@ -4,8 +4,9 @@ const { v4: uuidv4 } = require('uuid');
 exports.createProduct = async (req, res, next) => {
     try {
         const { name, description, price, stock } = req.body;
-        const product = await new Product({ id: uuidv4(), name, description, price, stock });
-        res.status(201).json(product);
+        const product = new Product({ _id: uuidv4(), name, description, price, stock });
+        const savedProduct = await product.save();
+        res.status(201).json(savedProduct);
     } catch (error) {
         next(error);
     }
