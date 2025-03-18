@@ -21,6 +21,7 @@ const orderSchema = new mongoose.Schema({
             quantity: {
                 type: Number,
                 required: true,
+                min: 1
             }
         }
     ],
@@ -31,8 +32,15 @@ const orderSchema = new mongoose.Schema({
 
     totalAmount: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
+    },
+
+    status: {
+        type: String,
+        enum: ['pending', 'shipped', 'delivered', 'canceled'],
+        default: 'pending'
     }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Order", orderSchema);
