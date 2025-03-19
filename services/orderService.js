@@ -1,17 +1,29 @@
 const mongoose = require('mongoose');
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const { v4: uuidv4 } = require('uuid');
+const { getProductById } = require('../controller/productController');
+
+
+async function getDataProduct(productId) {
+
+}
 
 exports.createOrder = async (orderData) => {
     const session = await mongoose.startSession();
     session.startTransaction();
+
+    console.log(orderData);
+
+    const detailProduct = await Product.findById(orderData.products[0].productId);
+    const productPrice = detailProduct.price;
 
     try {
         for (const item of orderData.products) {
             await Product.findByIdAndUpdate(item.productId, { $inc: { stock: -item.quantity } }, { session });
         }
 
-        const order = new Order(orderData);
+        const order = new Order({ ...orderData, _id: uuidv4(), totalAmount: productPrice * orderData.products[0].quantity });
         const saveOrder = await order.save({ session });
 
         await session.commitTransaction();
