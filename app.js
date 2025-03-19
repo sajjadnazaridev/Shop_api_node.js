@@ -1,5 +1,5 @@
 const express = require("express");
-const logger = require("./logger");
+const logger = require("./utils/logger");
 const app = express();
 
 const productRoutes = require("./routes/productRoutes");
